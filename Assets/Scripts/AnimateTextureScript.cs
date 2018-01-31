@@ -5,22 +5,33 @@ using UnityEngine;
 public class AnimateTextureScript : MonoBehaviour {
     [SerializeField]
     private Texture[] Textures;
-   
-
     [SerializeField]
     private int CurrentTex;
-
     [SerializeField]
     private Material LedLightShader;
     [SerializeField]
     private Renderer rend;
 
-	void Start ()
+    public enum characterEnum
+    {
+        JoyConAnim,
+        RandomAnim,
+        TrailerAnim
+    }
+
+    public characterEnum LedTextureType;
+
+    void Start ()
     {
         rend = GetComponent<Renderer>();
         CurrentTex = 0;
         StartCoroutine(Wait1sec());
 	}
+
+    public void Update()
+    {
+       
+    }   
 
     IEnumerator Wait1sec()
     {
