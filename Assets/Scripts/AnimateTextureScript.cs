@@ -25,15 +25,30 @@ public class AnimateTextureScript : MonoBehaviour {
     {
         rend = GetComponent<Renderer>();
         CurrentTex = 0;
-        StartCoroutine(Wait1sec());
-	}
+        //StartCoroutine(JoyCon());
+        StartCoroutine(Trailer());
+    }
 
     public void Update()
     {
-       
+        if (LedTextureType == characterEnum.JoyConAnim)
+        {
+            Debug.Log("JoyCons");
+            
+        }
+
+        if (LedTextureType == characterEnum.RandomAnim)
+        {
+            Debug.Log("Random");
+        }
+
+        if (LedTextureType == characterEnum.TrailerAnim)
+        {
+            Debug.Log("TrailerAnim");
+        }
     }   
 
-    IEnumerator Wait1sec()
+    IEnumerator JoyCon()
     {
         while (true)
         {
@@ -50,6 +65,18 @@ public class AnimateTextureScript : MonoBehaviour {
             }
             Debug.Log("Niels is cool");
             
+        }
+    }
+
+    IEnumerator Trailer()
+    {
+        CurrentTex = 2;
+        while (true || CurrentTex < Textures.Length)
+        {
+            yield return new WaitForSeconds(.5f);
+            
+                LedLightShader.SetTexture("_MainTex", Textures[CurrentTex]);
+                CurrentTex++;
         }
     }
 }
