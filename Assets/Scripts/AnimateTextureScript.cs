@@ -11,22 +11,35 @@ public class AnimateTextureScript : MonoBehaviour {
     private Material LedLightShader;
     [SerializeField]
     private Renderer rend;
+    public characterEnum LedTextureType;
+
+    [SerializeField]
+    private Texture[] Ninja;
+
+    [SerializeField]
+    private Texture[] GifSecond;
+
+    [SerializeField]
+    private Texture[] GifThird;
+
 
     public enum characterEnum
     {
         JoyConAnim,
         RandomAnim,
-        TrailerAnim
+        TrailerAnim,
+        Ninja
     }
-
-    public characterEnum LedTextureType;
 
     void Start ()
     {
         rend = GetComponent<Renderer>();
         CurrentTex = 0;
         //StartCoroutine(JoyCon());
-        StartCoroutine(Trailer());
+        //StartCoroutine(Trailer());
+        StartCoroutine(NinjaTimer());
+        //StartCoroutine(Gif2());
+        //StartCoroutine(Gif3());
     }
 
     public void Update()
@@ -45,6 +58,11 @@ public class AnimateTextureScript : MonoBehaviour {
         if (LedTextureType == characterEnum.TrailerAnim)
         {
             Debug.Log("TrailerAnim");
+        }
+
+        if (LedTextureType == characterEnum.Ninja)
+        {
+            Debug.Log("Ninja");
         }
     }   
 
@@ -78,5 +96,58 @@ public class AnimateTextureScript : MonoBehaviour {
                 LedLightShader.SetTexture("_MainTex", Textures[CurrentTex]);
                 CurrentTex++;
         }
+    }
+
+    IEnumerator NinjaTimer()
+    {
+        int NinjaTimer = 0;
+        while (true)
+        {
+            yield return new WaitForSeconds(.06f);
+
+            LedLightShader.SetTexture("_MainTex", Ninja[NinjaTimer]);
+            NinjaTimer++;
+
+            if (NinjaTimer == Ninja.Length)
+            {
+                NinjaTimer = 0;
+            }
+        }    
+    }
+
+    IEnumerator Gif2()
+    {
+        int GifTimer = 0;
+        while (true)
+        {
+            yield return new WaitForSeconds(.1f);
+
+            LedLightShader.SetTexture("_MainTex", GifSecond[GifTimer]);
+            GifTimer++;
+
+            if (GifTimer == GifSecond.Length)
+            {
+                GifTimer = 0;
+            }
+        }
+    }
+
+    IEnumerator Gif3()
+    {
+        int GifTimer = 0;
+        while (true)
+        {
+            yield return new WaitForSeconds(.15f);
+
+            LedLightShader.SetTexture("_MainTex", GifThird[GifTimer]);
+            GifTimer++;
+
+            if (GifTimer == GifThird.Length)
+            {
+                GifTimer = 0;
+            }
+        }
+
+
     }
 }
