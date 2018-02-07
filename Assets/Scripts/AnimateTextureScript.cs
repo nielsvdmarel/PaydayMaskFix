@@ -22,6 +22,10 @@ public class AnimateTextureScript : MonoBehaviour {
     [SerializeField]
     private Texture[] GifThird;
 
+    [SerializeField]
+    private Texture[] SpongeBob;
+
+
 
     public enum characterEnum
     {
@@ -40,6 +44,7 @@ public class AnimateTextureScript : MonoBehaviour {
         StartCoroutine(NinjaTimer());
         //StartCoroutine(Gif2());
         //StartCoroutine(Gif3());
+        //StartCoroutine(SpongeBobTimer());
     }
 
     public void Update()
@@ -143,6 +148,23 @@ public class AnimateTextureScript : MonoBehaviour {
             GifTimer++;
 
             if (GifTimer == GifThird.Length)
+            {
+                GifTimer = 0;
+            }
+        }
+    }
+
+    IEnumerator SpongeBobTimer()
+    {
+        int GifTimer = 0;
+        while (true)
+        {
+            yield return new WaitForSeconds(.1f);
+
+            LedLightShader.SetTexture("_MainTex", SpongeBob[GifTimer]);
+            GifTimer++;
+
+            if (GifTimer == SpongeBob.Length)
             {
                 GifTimer = 0;
             }
