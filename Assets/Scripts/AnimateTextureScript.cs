@@ -24,6 +24,8 @@ public class AnimateTextureScript : MonoBehaviour {
 
     [SerializeField]
     private Texture[] SpongeBob;
+    [SerializeField]
+    bool HasBinActivated = false;
 
 
 
@@ -32,50 +34,85 @@ public class AnimateTextureScript : MonoBehaviour {
         JoyConAnim,
         RandomAnim,
         TrailerAnim,
-        Ninja
+        Ninja,
+        Spongebob,
+        Black
+        
     }
+    public characterEnum type;
+    private characterEnum currentype;
 
     void Start ()
     {
         rend = GetComponent<Renderer>();
         CurrentTex = 0;
-        //StartCoroutine(JoyCon());
-        //StartCoroutine(Trailer());
-        StartCoroutine(NinjaTimer());
-        //StartCoroutine(Gif2());
-        //StartCoroutine(Gif3());
-        //StartCoroutine(SpongeBobTimer());
+        type = characterEnum.Black;
     }
 
     public void Update()
     {
-        if (LedTextureType == characterEnum.JoyConAnim)
+        if (currentype != type)
         {
-            Debug.Log("JoyCons");
-            
+            HasBinActivated = true;
+            currentype = type;
         }
+        switch (type)
+        {
+            case characterEnum.JoyConAnim:
+                if (HasBinActivated)
+                {
+                    {
+                        NewLedTexture(JoyCon());
+                        HasBinActivated = false;
 
-        if (LedTextureType == characterEnum.RandomAnim)
-        {
-            Debug.Log("Random");
-        }
+                    }
+                }         
+                break;
+            case characterEnum.Ninja:
+                if (HasBinActivated)
+                {
+                    {
+                        NewLedTexture(NinjaTimer());
+                        HasBinActivated = false;
+                    }
+                }
+                break;
+            case characterEnum.RandomAnim:
+                if (HasBinActivated)
+                {
+                    {
+                        NewLedTexture(NinjaTimer());
+                        HasBinActivated = false;
+                    }
+                }
+                break;
+            case characterEnum.TrailerAnim:
+                if (HasBinActivated)
+                {
+                    {
+                        NewLedTexture(Trailer());
+                        HasBinActivated = false;
+                    }
+                }
+                break;
 
-        if (LedTextureType == characterEnum.TrailerAnim)
-        {
-            Debug.Log("TrailerAnim");
+            case characterEnum.Spongebob:
+                if (HasBinActivated)
+                {
+                    {
+                        NewLedTexture(SpongeBobTimer());
+                        HasBinActivated = false;
+                    }
+                }
+                break;
         }
-
-        if (LedTextureType == characterEnum.Ninja)
-        {
-            Debug.Log("Ninja");
-        }
-    }   
+    }
 
     IEnumerator JoyCon()
     {
         while (true)
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.45f);
             if(CurrentTex == 1)
             {
                 LedLightShader.SetTexture("_MainTex", Textures[0]);
@@ -96,10 +133,15 @@ public class AnimateTextureScript : MonoBehaviour {
         CurrentTex = 2;
         while (true || CurrentTex < Textures.Length)
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.7f);
             
                 LedLightShader.SetTexture("_MainTex", Textures[CurrentTex]);
                 CurrentTex++;
+            if(CurrentTex == Textures.Length)
+            {
+                StopAllCoroutines();
+                StartCoroutine(JoyCon());
+            }
         }
     }
 
@@ -171,5 +213,12 @@ public class AnimateTextureScript : MonoBehaviour {
         }
 
 
+    }
+
+
+    void NewLedTexture(IEnumerator current)
+    {
+        StopAllCoroutines();
+        StartCoroutine(current);
     }
 }
