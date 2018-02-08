@@ -31,12 +31,13 @@ public class AnimateTextureScript : MonoBehaviour {
 
     public enum characterEnum
     {
+        Begin,
         JoyConAnim,
         RandomAnim,
         TrailerAnim,
         Ninja,
         Spongebob,
-        Black
+        End
         
     }
     public characterEnum type;
@@ -46,7 +47,7 @@ public class AnimateTextureScript : MonoBehaviour {
     {
         rend = GetComponent<Renderer>();
         CurrentTex = 0;
-        type = characterEnum.Black;
+        //type = characterEnum.Begin;
     }
 
     public void Update()
@@ -105,6 +106,24 @@ public class AnimateTextureScript : MonoBehaviour {
                     }
                 }
                 break;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            type += 1;
+            if (type == characterEnum.End)
+            {
+                type = characterEnum.JoyConAnim;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            type -= 1;
+            if(type == characterEnum.Begin)
+            {
+                type = characterEnum.Spongebob;
+            }
+            
         }
     }
 
