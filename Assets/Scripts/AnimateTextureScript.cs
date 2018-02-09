@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class AnimateTextureScript : MonoBehaviour {
     [SerializeField]
-    private Texture[] Textures;
-    [SerializeField]
     private int CurrentTex;
     [SerializeField]
     private Material LedLightShader;
     [SerializeField]
     private Renderer rend;
     public characterEnum LedTextureType;
-
+    [SerializeField]
+    private Texture[] Textures;
+    [SerializeField]
+    private Texture[] LagTex;
     [SerializeField]
     private Texture[] Ninja;
-
     [SerializeField]
     private Texture[] GifSecond;
-
     [SerializeField]
     private Texture[] GifThird;
-
     [SerializeField]
     private Texture[] SpongeBob;
     [SerializeField]
@@ -37,6 +35,7 @@ public class AnimateTextureScript : MonoBehaviour {
         TrailerAnim,
         Ninja,
         Spongebob,
+        Lag,
         End
         
     }
@@ -65,9 +64,18 @@ public class AnimateTextureScript : MonoBehaviour {
                     {
                         NewLedTexture(JoyCon());
                         HasBinActivated = false;
-
                     }
                 }         
+                break;
+
+            case characterEnum.Lag:
+                if (HasBinActivated)
+                {
+                    {
+                        NewLedTexture(Lag());
+                        HasBinActivated = false;
+                    }
+                }
                 break;
             case characterEnum.Ninja:
                 if (HasBinActivated)
@@ -144,6 +152,23 @@ public class AnimateTextureScript : MonoBehaviour {
             }
             Debug.Log("Niels is cool");
             
+        }
+    }
+
+    IEnumerator Lag()
+    {
+        CurrentTex = 2;
+        while (true || CurrentTex < LagTex.Length)
+        {
+            yield return new WaitForSeconds(.1f);
+
+            LedLightShader.SetTexture("_MainTex", LagTex[CurrentTex]);
+            CurrentTex++;
+            if (CurrentTex == LagTex.Length)
+            {
+                StopAllCoroutines();
+                StartCoroutine(Trailer());
+            }
         }
     }
 

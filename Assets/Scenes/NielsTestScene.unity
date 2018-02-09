@@ -656,6 +656,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34997ce2405bda349bd8dbf1b1a6dc0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentTex: 0
+  LedLightShader: {fileID: 2100000, guid: 390df547c49e75446b3f43fb397ab7f0, type: 2}
+  rend: {fileID: 0}
+  LedTextureType: 0
   Textures:
   - {fileID: 2800000, guid: d965b6a698a646a4882832f1619b9774, type: 3}
   - {fileID: 2800000, guid: d8d5ab8a9a7ed3d47bb8b973fdb13dc6, type: 3}
@@ -667,10 +671,12 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7e588891de2a0b944b418f0a904d699b, type: 3}
   - {fileID: 2800000, guid: 9c97327f8329c3a4190c477749ec2000, type: 3}
   - {fileID: 2800000, guid: 6353fc4c20e6edc4f81761f5af8cfe8c, type: 3}
-  CurrentTex: 0
-  LedLightShader: {fileID: 2100000, guid: 390df547c49e75446b3f43fb397ab7f0, type: 2}
-  rend: {fileID: 0}
-  LedTextureType: 0
+  LagTex:
+  - {fileID: 2800000, guid: d7b3a25746006f84ea40a67f880962fb, type: 3}
+  - {fileID: 2800000, guid: 211f0b000e18ddf4ca90d4685f5b7b07, type: 3}
+  - {fileID: 2800000, guid: a916c95845534c44e9cfe46da1ea63da, type: 3}
+  - {fileID: 2800000, guid: 97b9adcdc55adff47a494105aa080758, type: 3}
+  - {fileID: 2800000, guid: a942ddc2ca98c3848b5d81ce43702de6, type: 3}
   Ninja:
   - {fileID: 2800000, guid: 44d093abc4492ed41846ad0190b04b0c, type: 3}
   - {fileID: 2800000, guid: 4c671295afb8bd0499b3b10bcf6c120a, type: 3}
@@ -1484,6 +1490,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34997ce2405bda349bd8dbf1b1a6dc0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentTex: 0
+  LedLightShader: {fileID: 2100000, guid: 390df547c49e75446b3f43fb397ab7f0, type: 2}
+  rend: {fileID: 0}
+  LedTextureType: 1
   Textures:
   - {fileID: 2800000, guid: d965b6a698a646a4882832f1619b9774, type: 3}
   - {fileID: 2800000, guid: d8d5ab8a9a7ed3d47bb8b973fdb13dc6, type: 3}
@@ -1495,10 +1505,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7e588891de2a0b944b418f0a904d699b, type: 3}
   - {fileID: 2800000, guid: 9c97327f8329c3a4190c477749ec2000, type: 3}
   - {fileID: 2800000, guid: 6353fc4c20e6edc4f81761f5af8cfe8c, type: 3}
-  CurrentTex: 0
-  LedLightShader: {fileID: 2100000, guid: 390df547c49e75446b3f43fb397ab7f0, type: 2}
-  rend: {fileID: 0}
-  LedTextureType: 1
+  LagTex: []
   Ninja:
   - {fileID: 2800000, guid: 44d093abc4492ed41846ad0190b04b0c, type: 3}
   - {fileID: 2800000, guid: 4c671295afb8bd0499b3b10bcf6c120a, type: 3}
