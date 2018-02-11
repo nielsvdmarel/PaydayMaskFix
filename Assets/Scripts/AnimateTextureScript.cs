@@ -21,19 +21,21 @@ public class AnimateTextureScript : MonoBehaviour {
     [SerializeField]
     private Texture[] GifThird;
     [SerializeField]
+    private Texture[] WhiteLoadTex;
+    [SerializeField]
     private Texture[] SpongeBob;
     [SerializeField]
     bool HasBinActivated = false;
+    private float waitTimeLag;
 
 
 
     public enum characterEnum
     {
         Begin,
-        JoyConAnim,
-        RandomAnim,
-        TrailerAnim,
         Ninja,
+        HeroGif,
+        SunRise,
         Spongebob,
         Lag,
         End
@@ -46,7 +48,7 @@ public class AnimateTextureScript : MonoBehaviour {
     {
         rend = GetComponent<Renderer>();
         CurrentTex = 0;
-        //type = characterEnum.Begin;
+        type = characterEnum.Lag;
     }
 
     public void Update()
@@ -58,16 +60,6 @@ public class AnimateTextureScript : MonoBehaviour {
         }
         switch (type)
         {
-            case characterEnum.JoyConAnim:
-                if (HasBinActivated)
-                {
-                    {
-                        NewLedTexture(JoyCon());
-                        HasBinActivated = false;
-                    }
-                }         
-                break;
-
             case characterEnum.Lag:
                 if (HasBinActivated)
                 {
@@ -86,25 +78,26 @@ public class AnimateTextureScript : MonoBehaviour {
                     }
                 }
                 break;
-            case characterEnum.RandomAnim:
+
+            case characterEnum.HeroGif:
                 if (HasBinActivated)
                 {
                     {
-                        NewLedTexture(NinjaTimer());
-                        HasBinActivated = false;
-                    }
-                }
-                break;
-            case characterEnum.TrailerAnim:
-                if (HasBinActivated)
-                {
-                    {
-                        NewLedTexture(Trailer());
+                        NewLedTexture(Gif2());
                         HasBinActivated = false;
                     }
                 }
                 break;
 
+            case characterEnum.SunRise:
+                if (HasBinActivated)
+                {
+                    {
+                        NewLedTexture(Gif3());
+                        HasBinActivated = false;
+                    }
+                }
+                break;
             case characterEnum.Spongebob:
                 if (HasBinActivated)
                 {
@@ -121,7 +114,7 @@ public class AnimateTextureScript : MonoBehaviour {
             type += 1;
             if (type == characterEnum.End)
             {
-                type = characterEnum.JoyConAnim;
+                type = characterEnum.Ninja;
             }
         }
         else if (Input.GetKeyDown(KeyCode.Q))
@@ -129,7 +122,7 @@ public class AnimateTextureScript : MonoBehaviour {
             type -= 1;
             if(type == characterEnum.Begin)
             {
-                type = characterEnum.Spongebob;
+                type = characterEnum.Lag;
             }
             
         }
@@ -139,7 +132,8 @@ public class AnimateTextureScript : MonoBehaviour {
     {
         while (true)
         {
-            yield return new WaitForSeconds(.45f);
+            LedLightShader.SetFloat("_Glow", 5);
+            yield return new WaitForSeconds(1f);
             if(CurrentTex == 1)
             {
                 LedLightShader.SetTexture("_MainTex", Textures[0]);
@@ -157,12 +151,12 @@ public class AnimateTextureScript : MonoBehaviour {
 
     IEnumerator Lag()
     {
-        CurrentTex = 2;
+        CurrentTex = 0;
         while (true || CurrentTex < LagTex.Length)
         {
-            yield return new WaitForSeconds(.1f);
-
             LedLightShader.SetTexture("_MainTex", LagTex[CurrentTex]);
+            LedLightShader.SetFloat("_Glow", Random.Range(1f, 3));
+            yield return new WaitForSeconds(Random.Range(.07f,.09f));
             CurrentTex++;
             if (CurrentTex == LagTex.Length)
             {
@@ -177,14 +171,14 @@ public class AnimateTextureScript : MonoBehaviour {
         CurrentTex = 2;
         while (true || CurrentTex < Textures.Length)
         {
+            LedLightShader.SetFloat("_Glow", 5);
+            LedLightShader.SetTexture("_MainTex", Textures[CurrentTex]);
             yield return new WaitForSeconds(.7f);
-            
-                LedLightShader.SetTexture("_MainTex", Textures[CurrentTex]);
-                CurrentTex++;
+            CurrentTex++;
             if(CurrentTex == Textures.Length)
             {
                 StopAllCoroutines();
-                StartCoroutine(JoyCon());
+                StartCoroutine(WhiteLoad());
             }
         }
     }
@@ -194,9 +188,9 @@ public class AnimateTextureScript : MonoBehaviour {
         int NinjaTimer = 0;
         while (true)
         {
-            yield return new WaitForSeconds(.06f);
-
+            LedLightShader.SetFloat("_Glow", 5);
             LedLightShader.SetTexture("_MainTex", Ninja[NinjaTimer]);
+            yield return new WaitForSeconds(.06f);
             NinjaTimer++;
 
             if (NinjaTimer == Ninja.Length)
@@ -206,14 +200,33 @@ public class AnimateTextureScript : MonoBehaviour {
         }    
     }
 
+    IEnumerator WhiteLoad()
+    {
+        int WhiteTimer = 0;
+        while (true)
+        {
+            LedLightShader.SetFloat("_Glow", 5);
+            LedLightShader.SetTexture("_MainTex", WhiteLoadTex[WhiteTimer]);
+            yield return new WaitForSeconds(.04f);
+            WhiteTimer++;
+            if (WhiteTimer == WhiteLoadTex.Length)
+            {
+                Debug.Log("Nu gebeurt het");
+                StopAllCoroutines();
+                StartCoroutine(JoyCon());
+            }
+
+        }
+    }
+
     IEnumerator Gif2()
     {
         int GifTimer = 0;
         while (true)
         {
-            yield return new WaitForSeconds(.1f);
-
+            LedLightShader.SetFloat("_Glow", 5);
             LedLightShader.SetTexture("_MainTex", GifSecond[GifTimer]);
+            yield return new WaitForSeconds(.1f);
             GifTimer++;
 
             if (GifTimer == GifSecond.Length)
@@ -228,9 +241,9 @@ public class AnimateTextureScript : MonoBehaviour {
         int GifTimer = 0;
         while (true)
         {
-            yield return new WaitForSeconds(.15f);
-
+            LedLightShader.SetFloat("_Glow", 5);
             LedLightShader.SetTexture("_MainTex", GifThird[GifTimer]);
+            yield return new WaitForSeconds(.15f);
             GifTimer++;
 
             if (GifTimer == GifThird.Length)
@@ -245,9 +258,9 @@ public class AnimateTextureScript : MonoBehaviour {
         int GifTimer = 0;
         while (true)
         {
-            yield return new WaitForSeconds(.1f);
-
+            LedLightShader.SetFloat("_Glow", 5);
             LedLightShader.SetTexture("_MainTex", SpongeBob[GifTimer]);
+            yield return new WaitForSeconds(.1f);
             GifTimer++;
 
             if (GifTimer == SpongeBob.Length)
